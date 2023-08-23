@@ -1,41 +1,40 @@
-#!/usr/bin/env node
+import app from '../app.js';   //config del servidor
+import debug from'debug';   // mod debug
+import http from'http';     //modulo para crear servidores HTTP
+import { connect } from 'mongoose';
 
-/**
- * Module dependencies.
- */
 
-import app from '../app.js';
-import logger from 'debug'
-const debug =logger ('back:server');
-import http from 'http';
+//PORT
+//process.env guarda la configuración de las variables 
 
-/**
- * Get port from environment and store in Express.
- */
-
-const port = normalizePort(process.env.PORT || '3000');
+let port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
 /**
  * Create HTTP server.
  */
 
-const server = http.createServer(app);
+let server = http.createServer(app);  // creo un servidor normalizado con HTTP
+let ready = ()=> {
+  console.log('server ready on port '+port);
+  //connect('link de conexion de mongo')
+  connect(process.env.MONGO) //el método connect devuelve una promesa: trabajar con then-catch o async-await
+    .then(()=>console.log('database connected'))
+    .catch(err=>console.log(err))
+}
 
-/**
- * Listen on provided port, on all network interfaces.
- */
+server.listen(port,ready);    //con el metodo listen escucho el puerto para que empiece a funcionar (a levantarse)
 
-server.listen(port, () => console.log ("SERVER READY ON PORT: " + port));
+
 server.on('error', onError);
-server.on('listening', onListening);
+server.on('listening', onListening); 
 
 /**
  * Normalize a port into a number, string, or false.
  */
 
 function normalizePort(val) {
-  const port = parseInt(val, 10);
+  let port = parseInt(val, 10);
 
   if (isNaN(port)) {
     // named pipe
@@ -59,7 +58,7 @@ function onError(error) {
     throw error;
   }
 
-  const bind = typeof port === 'string'
+  let bind = typeof port === 'string'
     ? 'Pipe ' + port
     : 'Port ' + port;
 
@@ -83,8 +82,8 @@ function onError(error) {
  */
 
 function onListening() {
-  const addr = server.address();
-  const bind = typeof addr === 'string'
+  let addr = server.address();
+  let bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);

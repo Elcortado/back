@@ -1,109 +1,107 @@
 import'dotenv/config.js'
-import '../../config/database.js';
-
+import { connect } from 'mongoose'
+import User from '../User.js'
 import City from '../City.js'
 
 const cities = [{
-    country: "Chile",
-    population: 5614000,
-    photo: "https://www.voydeviaje.com.ar/resizer/xfEcInh-e9_KdbGmGu2EJmQAiG4=/980x640/smart/filters:quality(75):format(webp)/cloudfront-us-east-1.images.arcpublishing.com/grupoclarin/3LMDUQ7NCBBJXP6TMHBQD5JJQI.jpg",
-    city: "Santiago",
-    ObjectId: 1
-   
-},{
-    country: "Africa",
-    population: 19473125,
-    photo: "https://i.im.ge/2022/08/31/OE8GKP.victoriaFallsZambia.png",
-    city: "Zambia",
-    ObjectId: 2
-},{
-    country: "Egypt",
-    population: 9540000,
-    photo: "https://i.im.ge/2022/08/31/OERMl1.salahCitadelCairoCity.png",
-    city: "Cairo Citadel",
-    ObjectId: 3
-   
-},{
     country: "Cambodia",
+    fundation: "1113-01-01",
     population: 120000,
     photo: "https://i.im.ge/2022/08/31/OE8zGY.cambodia.png",
     city: "Siem Reap",
-    ObjectId: 4
-   
+    admin_id: "igna@mh.com"
 },{
     country: "Indonesia",
+    fundation: "1945-08-17",
     population: 4230051,
     photo: "https://i.im.ge/2022/08/31/OE8kcM.baliTemple.png",
     city: "Bali",
-    ObjectId: 5
-   
+    admin_id: "igna@mh.com"
 },{
     country: "Tahiti",
+    fundation: "1722-01-01",
     population: 10605,
     photo: "https://i.im.ge/2022/08/31/OE8fih.boraBora.png",
     city: "Bora Bora Island",
-    ObjectId: 6
-   
+    admin_id: "igna@mh.com"
 },{
     country: "Venezuela",
+    fundation: "1764-05-22",
     population: 407452,
     photo: "https://i.im.ge/2022/08/31/OE8VX8.canaimaBolivar.png",
     city: "Bolívar",
-    ObjectId: 7
-    
+    admin_id: "cin@mh.com"
 },{
     country: "Japan",
+    fundation: "1952-01-01",
     population: 104000000,
     photo: "https://i.im.ge/2022/08/31/OE8ZKX.japanHonshuIsland.png",
     city: "Honshu Island",
-    ObjectId: 8
-   
+    admin_id: "cin@mh.com"
 },{
     country: "Maldives Republic",
+    fundation: "1965-07-26",
     population: 540542,
     photo: "https://i.im.ge/2022/08/31/OE8p7D.maldives.png",
     city: "Maldives Islands",
-    ObjectId: 9
+    admin_id: "cin@mh.com"
 },{
     country: "Argentina",
+    fundation: "1927-12-07",
     population: 6143,
     photo: "https://i.im.ge/2022/08/31/OE8vA4.peritoMorenoCalafate.png",
     city: "El Calafate",
-    ObjectId: 10
-    
+    admin_id: "cin@mh.com"
 },{
     country: "Australia",
+    fundation: "1788-01-26",
     population: 5312000,
     photo: "https://i.im.ge/2022/08/31/OE8JpC.sidney.png",
     city: "Sydney",
-    ObjectId:  11
-    
+    admin_id: "fran@mh.com"
 },{
-    country: "Uruguay",
-    population: 1381000,
-    photo: "https://es.mercopress.com/data/cache/noticias/69478/0x0/mvd.jpg",
-    city: "Montevideo",
-    ObjectId: 12
-    
+    country: "Mexico",
+    fundation: "1325-06-20",
+    population: 212500,
+    photo: "https://i.im.ge/2022/08/31/OE842q.tenochtitlan.png",
+    city: "Tenochtitlan",
+    admin_id: "fran@mh.com"
 },{
-    country: "USA",
-    population: 884832,
-    photo: "https://cdn.britannica.com/13/77413-050-95217C0B/Golden-Gate-Bridge-San-Francisco.jpg",
-    city: "San Francisco",
-    ObjectId: 13
-    
+    country: "Chile",
+    fundation: "1928-01-01",
+    population: 165593,
+    photo: "https://i.im.ge/2022/08/31/OE8Bwp.torresDelPaineMagallanesRegion.png",
+    city: "Magallanes Region",
+    admin_id: "fran@mh.com"
 },{
-    country: "Canadá",
-    population: 1987266,
-    photo:" https://www.momondo.com.ar/rimg/dimg/0b/56/99204762-city-6966-164dcf26619.jpg?width=1366&height=768&xhint=2019&yhint=1104&crop=true",
-    city: "Montreal",
-    ObjectId: 14
+    country: "Africa",
+    fundation: "1964-10-24",
+    population: 19473125,
+    photo: "https://i.im.ge/2022/08/31/OE8GKP.victoriaFallsZambia.png",
+    city: "Zambia",
+    admin_id: "cin@mh.com"
 },{
-    country: "Spain",
-    population: 3280782,
-    photo:"https://dynamic-media-cdn.tripadvisor.com/media/photo-o/28/6a/f5/4c/caption.jpg?w=500&h=300&s=1",
-    city:"Madrid",
-    ObjectId: 15
+    country: "Egypt",
+    fundation: "0969-01-01",
+    population: 9540000,
+    photo: "https://i.im.ge/2022/08/31/OERMl1.salahCitadelCairoCity.png",
+    city: "Cairo Citadel",
+    admin_id: "cin@mh.com"
 }]
 
-City.insertMany(cities);
+async function createCities(arrayCities) {
+    try {
+        await connect(process.env.MONGO)
+        for (let city of arrayCities) {
+            let user = await User.findOne({ mail:city.admin_id })  
+            let admin_id = await null                           
+            city.admin_id = admin_id                               
+            await City.create(city)
+        }
+        console.log('done!');
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+createCities(cities)
