@@ -1,9 +1,9 @@
 import express from'express';
-import update from '../controller/users/update.js';
-import create from '../controller/users/create.js';
-import read from '../controller/users/read.js';
-import readOne from '../controller/users/readOne.js';
-import destroy from '../controller/users/destroy.js';
+import update from '../controller/user/update.js';
+import create from '../controller/user/create.js';
+import read from '../controller/user/read.js';
+import readOne from '../controller/user/readOne.js';
+import destroy from '../controller/user/destroy.js';
 
 
 let router = express.Router();
