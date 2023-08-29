@@ -9,15 +9,11 @@ export default async (req, res, next) => {
             success: true,
             message: 'city created',
             response: newCity._id
-      
 
         })
     } catch (error) {
-        console.log(error);
-        return res.status(500).json({
-            success: false,
-            message: 'error'
-        })
+
+        next(error)
         
     }
 }

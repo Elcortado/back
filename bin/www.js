@@ -1,3 +1,4 @@
+
 import app from '../app.js';   //config del servidor
 import debug from'debug';   // mod debug
 import http from'http';     //modulo para crear servidores HTTP
@@ -18,7 +19,7 @@ let server = http.createServer(app);  // creo un servidor normalizado con HTTP
 let ready = ()=> {
   console.log('server ready on port '+port);
   //connect('link de conexion de mongo')
-  connect(process.env.MONGO) //el método connect devuelve una promesa: trabajar con then-catch o async-await
+  connect(process.env.mongo) //el método connect devuelve una promesa: trabajar con then-catch o async-await
     .then(()=>console.log('database connected'))
     .catch(err=>console.log(err))
 }
