@@ -226,7 +226,7 @@ async function createActivities(arrayActivities){
         await connect(process.env.MONGO)
         for (let activity of arrayActivities) {
             let itinerary = await Itinerary.findOne({ itinerary:activities.itinerary_id })  
-            activity.itinerary_id = itinerary._id                
+            activity.itinerary_id = null               
             await Activity.create(activity)
         }
         console.log('done!');

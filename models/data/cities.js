@@ -129,9 +129,9 @@ async function createCities(arrayCities) {
     try {
         await connect(process.env.MONGO)
         for (let city of arrayCities) {
-            let user = await User.findOne({ mail:city.admin_id })   //busco el usuario que conincida el mail del objeto
-            let admin_id = await null                           //SOLO necesito el id de ese usuario
-            city.admin_id = admin_id                                //reasigno el valor del admin_id de cada ciudad para cambiar el mail que viene por default POR LO QUE CORRESPONDE (QUE SERIA EL ID)
+            let user = await User.findOne({ mail:city.admin_id })  
+                        let admin_id = await null                   
+            city.admin_id = admin_id                           
             await City.create(city)
         }
         console.log('done!');
